@@ -1,5 +1,5 @@
 <script>
-	import Measurement from './Measurement.svelte';
+	import Inches from './Inches.svelte';
 	import { Mode, spacing, toDecimal } from './spacing';
 	
 	let wallLength = '';
@@ -18,10 +18,10 @@
 	<input bind:value={idealSpacing} placeholder="Ideal Spacing (in.)">
 	<div>
 		<div>
-			<em>Wall Length</em>: <Measurement decimalValue={toDecimal(wallLength)} />
+			<em>Wall Length</em>: <Inches decimalValue={toDecimal(wallLength)} />
 		</div>
 		<div>
-			<em>Ideal Spacing</em>: <Measurement decimalValue={toDecimal(idealSpacing)} />
+			<em>Ideal Spacing</em>: <Inches decimalValue={toDecimal(idealSpacing)} />
 		</div>
 	</div>
 	<table>
@@ -34,17 +34,17 @@
 		</thead>
 		<tbody>
 			{#each results as {label, boardCount, spacing, mode}}
-			<tr>
-				<td class={selected === mode ? "selected" : ""} on:click={() => selected = mode}>{label}</td>
+			<tr class={selected === mode ? "selected" : ""}>
+				<td on:click={() => selected = mode}>{label}</td>
 				<td>{boardCount ?? ''}</td>
-				<td><Measurement decimalValue={spacing} /></td>
+				<td><Inches decimalValue={spacing} /></td>
 			</tr>
 			{/each}
 		</tbody>
 	</table>
 	<ul>
 		{#each measurements as measurement}
-			<li><Measurement decimalValue={measurement} /></li>
+			<li><Inches decimalValue={measurement} /></li>
 		{/each}
 	</ul>
 </div>
@@ -99,8 +99,13 @@
 		cursor: pointer;
 	}
 
-	td.selected {
-		text-decoration: underline;
+	tr.selected td:first-child {
+		background-color: #555;
+	}
+
+
+	tr.selected td:not(:first-child) {
+		background-color: #ddd;
 	}
 
 	th:first-child {
